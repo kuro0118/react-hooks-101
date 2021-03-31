@@ -1,27 +1,32 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const App = props => {
-
-  // chips: useStateは配列型で戻って來るので、そのままステート値、sethogehoge()の要素を持つ配列に設定する。【復習】
-  // chips: オブジェクトをまるっとuseStateに渡すことも可能。
   const [state, setState] = useState(props);
-  // chips: オブジェクトをプロパティで分けたオブジェクトに設定するには以下の様にする (JS特有)
   const {name, price} = state 
 
-  // const [name, setName] = useState(props.name);
-  // const [price, setPrice] = useState(props.price);
+  // chips: useEffectはレンダリングの後に実行される。(render()の後)
+  //        従来のcomponentDidMount()、componentDidUpdate()に似ている。(但し、前者は初回の呼び出しのみだけど)
+  // chips: useEffectは何個でもコンポーネント内に記載が可能
+  // chips: ステートが変わった時のコールバックとして使う事がuseEffectの用途
+  useEffect(() => {
+    console.log("This is like componentDidMount or componentDidUpdate.");
+  })
 
+  // chips: 第二引数に空配列を渡すと、初回のみしか実行されない。
+  useEffect(() => {
+    console.log("This is like componentDidMount.");
+  }, []) 
 
-  // setPrice(props.price)
-  // setName(props.name)
-
-  // chips: propsはAppコンポーネントの初回呼び出し時から変わらないことを注意。
-  // chips: inputタグのonChangeイベントについて、eにはイベントオブジェクトが入り、
-  //        e.target.valueとすることで、inputタグで入力された値を取得することが出来る。(この機能自体はJS特有のもの)
-  //        ちなみに、setName()をしないとステートに変更がされないため、入力した文言が画面に表示されない
-  // chips: 引数なしの関数は{func1}という形でも使えるようだ
-  // chips: {...state, name: e.target.value} この記述はstate全オブジェクトを展開し、そのnameのプロパティのみに
-  //        入力された値を設定する、という記述をしている。
+  // chips: 指定のステートが変更された場合のみ、実行したい場合、
+  //        ステートを格納した配列を渡す。
+  useEffect(() => {
+    console.log("This callback is for name only.");
+  }, [name]) 
+ 
+  // chips: 関数が{}付いていると、()を付けて使わないといけない？
+  //        {}か()か、引数に()付けるか否かはちょっと学習していかないと違いがわからんな。。
+  // chips: AppコンポーネントをReact.StrictModeでラップしている場合、
+  //        状態が変わってないのにレンダリングが行われるので注意。(今更)
   return (
     <>
       <p>現在の{name}は、{price}円です。</p>
