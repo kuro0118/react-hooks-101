@@ -31,6 +31,15 @@ const App = () => {
     setBody('');
   }
 
+  const deleteAllEvents = e => {
+    e.preventDefault();
+    const result = window.confirm("全てのイベントを本当に削除しても良いですか？");
+    if (result) dispatch({ type: 'DELETE_ALL_EVENTS' })
+  }
+
+  // chips: 真偽値を確認死体だけの場合は以下のような記述が出来る。。
+  const unCreatable = title === '' || body === '';
+
   console.log({ state });
 
   // chips: e.target.valueにて、入力値を拾うことが出来る。
@@ -52,8 +61,8 @@ const App = () => {
           <label htmlFor="formEventBody">ボディ</label>
           <textarea className="form-control" id="formEventBody" value={body} onChange={e => setBody(e.target.value)} />
         </div>
-        <button className="btn btn-primary" onClick={addEvent}>イベントを作成する</button>
-        <button className="btn btn-danger">全てのイベントを削除する</button>
+        <button className="btn btn-primary" onClick={addEvent} disabled={unCreatable}>イベントを作成する</button>
+        <button className="btn btn-danger" onClick={deleteAllEvents} disabled={state.length === 0}>全てのイベントを削除する</button>
       </form>
       <h4>イベント一覧</h4>
       <table className="table table-hover">
