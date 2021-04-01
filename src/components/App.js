@@ -4,7 +4,7 @@ import React, { useReducer, useState } from 'react'
 //                  今回の演習ではJQueryは入れていない為、エラーが起きる。
 import "bootstrap/dist/css/bootstrap.min.css"
 
-
+import Event from '../components/Event';
 // chips: ファイル指定しなくてもreducerをインポートできる。
 import reducer from '../reducers';
 
@@ -31,9 +31,15 @@ const App = () => {
     setBody('');
   }
 
-  console.log({state});
+  console.log({ state });
 
   // chips: e.target.valueにて、入力値を拾うことが出来る。
+  // chips: mapループ内のJSXを返したい場合は、hoges.map(item => {return <hoge>…</hoge>})とするか
+  //        hoges.map(item => (<hoge>...</hoge>))と記述する。
+  //        基本1つの関数で完結できないブロックは{}を使用する。
+  // chips: 行削除ボタンの処理はmapループ内で記述することに注意する。
+  // chips: Eventコンポーネントを定義。
+  // chips: Eventコンポーネントのpropsにkeyを指定しているため、コンポーネント内のJSXにkeyを付ける必要はなし。
   return (
     <div className="container-fluid">
       <h4>イベント作成フォーム</h4>
@@ -60,6 +66,11 @@ const App = () => {
           </tr>
         </thead>
         <tbody>
+          {
+            state.map((event, index) => (
+              <Event key={index} event={event} dispatch={dispatch} />
+            ))
+          }
         </tbody>
       </table>
     </div>
