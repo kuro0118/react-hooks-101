@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import AppContext from '../contexts/AppContext';
 import { CREATE_EVENT, DELETE_ALL_EVENTS } from '../actions';
 
 // chips: propsが複数ある場合は、引数は{}のオブジェクト型で受け取ることに注意する
-const EventForm = ({ state, dispatch }) => {
+const EventForm = () => {
+
+    const { state, dispatch } = useContext(AppContext);
 
     // chips: 第1引数：reducer、第2引数は扱いたいステート(今回は配列型のステートを使うため、空配列)
     // chips: useStateの戻り値は第1戻り値がステート、第2戻り値がステートを変更させる為の関数 (復習)
@@ -31,8 +34,6 @@ const EventForm = ({ state, dispatch }) => {
 
     // chips: 真偽値を確認死体だけの場合は以下のような記述が出来る。。
     const unCreatable = title === '' || body === '';
-
-    console.log({ state });
 
     return (
         <>

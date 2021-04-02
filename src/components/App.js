@@ -9,8 +9,6 @@ import AppContext from '../contexts/AppContext';
 // chips: ファイル指定しなくてもreducerをインポートできる。
 import reducer from '../reducers';
 
-console.log({ AppContext });
-
 // chips-bootstrap: container-fluidを指定すると、画面いっぱいにスタイルが適用される
 //                  conteinerを指定すると、左右に余白を残しつつ適用される。
 // chips-bootstrap: label、inputは同じidにすること！(ラベルを押すと、フォームにカーソルが作るのが正しい)
@@ -27,12 +25,12 @@ const App = () => {
   // chips: Eventコンポーネントを定義。
   // chips: Eventコンポーネントのpropsにkeyを指定しているため、コンポーネント内のJSXにkeyを付ける必要はなし。
   // chips: stateとdispatchは親で唯一のものとしたいため、子コンポーネントではそれを使い回す様にしたい。
-  // chips: 下記のvalueに共有したい状態を渡す
+  // chips: 下記のvalueに共有したい状態を渡す。(現在ドリリングしているpropsを渡したい)
   return (
-    <AppContext.Provider value={'Hello, I am Provider.'}>
+    <AppContext.Provider value={{ state, dispatch }}>
       <div className="container-fluid">
-        <EventForm state={state} dispatch={dispatch} />
-        <Events state={state} dispatch={dispatch} />
+        <EventForm />
+        <Events />
       </div>
     </AppContext.Provider>
   );
