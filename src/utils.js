@@ -1,1 +1,1 @@
-export const timeCurrentISO8601 = () => (new Date()).toISOString()
+export const timeCurrentIso8601 = () => (new Date()).toISOString()

@@ -1,6 +1,12 @@
 import React, { useContext, useState } from 'react'
 import AppContext from '../contexts/AppContext';
-import { CREATE_EVENT, DELETE_ALL_EVENTS } from '../actions';
+import {timeCurrentIso8601} from '../utils';
+import {
+    CREATE_EVENT,
+    DELETE_ALL_EVENTS,
+    ADD_OPERATION_LOG,
+    DELETE_ALL_OPERATION_LOGS
+} from '../actions';
 
 // chips: propsが複数ある場合は、引数は{}のオブジェクト型で受け取ることに注意する
 const EventForm = () => {
@@ -22,6 +28,12 @@ const EventForm = () => {
             body
         })
 
+        dispatch({
+            type: ADD_OPERATION_LOG,
+            description: 'イベントを作成しました。',
+            operatedAt: timeCurrentIso8601()
+        })
+
         setTitle('');
         setBody('');
     }
@@ -29,7 +41,15 @@ const EventForm = () => {
     const deleteAllEvents = e => {
         e.preventDefault();
         const result = window.confirm("全てのイベントを本当に削除しても良いですか？");
-        if (result) dispatch({ type: DELETE_ALL_EVENTS })
+        if (result) {
+            dispatch({ type: DELETE_ALL_EVENTS })
+
+            dispatch({ 
+                type: ADD_OPERATION_LOG,
+                description: '全てのイベントを削除しました。',
+                operatedAt: timeCurrentIso8601()
+            })
+        }
     }
 
     // chips: 真偽値を確認死体だけの場合は以下のような記述が出来る。。
