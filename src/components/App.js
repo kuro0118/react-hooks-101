@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 
 import EventForm from '../components/EventForm'
 import Events from '../components/Events';
+import OperationLogs from '../components/OperationLogs';
 import AppContext from '../contexts/AppContext';
 // chips: ファイル指定しなくてもreducerをインポートできる。
 import reducer from '../reducers';
@@ -44,6 +45,7 @@ const App = () => {
       <div className="container-fluid">
         <EventForm />
         <Events />
+        <OperationLogs />
       </div>
     </AppContext.Provider>
   );
