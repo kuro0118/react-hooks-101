@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import AppContext from '../contexts/AppContext';
-import {timeCurrentIso8601} from '../utils';
+import { timeCurrentIso8601 } from '../utils';
 import {
     CREATE_EVENT,
     DELETE_ALL_EVENTS,
@@ -44,7 +44,7 @@ const EventForm = () => {
         if (result) {
             dispatch({ type: DELETE_ALL_EVENTS })
 
-            dispatch({ 
+            dispatch({
                 type: ADD_OPERATION_LOG,
                 description: '全てのイベントを削除しました。',
                 operatedAt: timeCurrentIso8601()
@@ -54,6 +54,16 @@ const EventForm = () => {
 
     // chips: 真偽値を確認死体だけの場合は以下のような記述が出来る。。
     const unCreatable = title === '' || body === '';
+
+    const deleteAllOparationLogs = e => {
+        e.preventDefault();
+        const result = window.confirm("全ての操作ログを本当に削除しても良いですか？");
+        if (result) {
+            dispatch({
+                type: DELETE_ALL_OPERATION_LOGS
+            })
+        }
+    }
 
     return (
         <>
@@ -69,6 +79,7 @@ const EventForm = () => {
                 </div>
                 <button className="btn btn-primary" onClick={addEvent} disabled={unCreatable}>イベントを作成する</button>
                 <button className="btn btn-danger" onClick={deleteAllEvents} disabled={state.events.length === 0}>全てのイベントを削除する</button>
+                <button className="btn btn-danger" onClick={deleteAllOparationLogs} disabled={state.operationLogs.length === 0}>全ての操作ログを削除する</button>
             </form>
         </>
     )
