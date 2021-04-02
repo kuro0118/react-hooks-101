@@ -5,8 +5,11 @@ import "bootstrap/dist/css/bootstrap.min.css"
 
 import EventForm from '../components/EventForm'
 import Events from '../components/Events';
+import AppContext from '../contexts/AppContext';
 // chips: ファイル指定しなくてもreducerをインポートできる。
 import reducer from '../reducers';
+
+console.log({ AppContext });
 
 // chips-bootstrap: container-fluidを指定すると、画面いっぱいにスタイルが適用される
 //                  conteinerを指定すると、左右に余白を残しつつ適用される。
@@ -24,11 +27,14 @@ const App = () => {
   // chips: Eventコンポーネントを定義。
   // chips: Eventコンポーネントのpropsにkeyを指定しているため、コンポーネント内のJSXにkeyを付ける必要はなし。
   // chips: stateとdispatchは親で唯一のものとしたいため、子コンポーネントではそれを使い回す様にしたい。
+  // chips: 下記のvalueに共有したい状態を渡す
   return (
-    <div className="container-fluid">
-      <EventForm state={state} dispatch={dispatch}/>
-      <Events state={state} dispatch={dispatch}/>
-    </div>
+    <AppContext.Provider value={'Hello, I am Provider.'}>
+      <div className="container-fluid">
+        <EventForm state={state} dispatch={dispatch} />
+        <Events state={state} dispatch={dispatch} />
+      </div>
+    </AppContext.Provider>
   );
 }
 
