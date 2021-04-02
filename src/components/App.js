@@ -15,7 +15,19 @@ import reducer from '../reducers';
 const App = () => {
   // chips: 第1引数：reducer、第2引数は扱いたいステート(今回は配列型のステートを使うため、空配列)
   // chips: useStateの戻り値は第1戻り値がステート、第2戻り値がステートを変更させる為の関数 (復習)
-  const [state, dispatch] = useReducer(reducer, []);
+  // chips: events以外の状態を扱うため、オブジェクト型に変更した。
+  //        reducer/event.jsの方のstate変数に対して、リファクタリングが必要なのでは？と思ったけど、
+  //        向こうはそもそも、dispatchで送信した、入力フォームのtitle、body、それと自動採番のidから作成される
+  //        オブジェクト型なので、リファクタリングをする必要が無かったのかも。
+  //        (そもそもdispatchで送信した、action.title、action.bodyのプロパティから作成される変数なので)
+  //        ...と言っても、なんでピンポイントでeventsプロパティに設定されるのかはちょっとよくわからないですね...
+  //        >> 多分だけど、combineReducerのエクスポートに、引数として{events}を使用しているので、eventsプロパティに設定される説が濃厚。
+  //           (試しにcombineReducerのモジュールをimportから外し、reducers/event.jsの方をimportしたらstate.idが見つからないエラー
+  //            が発生したため)
+  const initialState = {
+    events: []
+  }
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   // chips: e.target.valueにて、入力値を拾うことが出来る。
   // chips: mapループ内のJSXを返したい場合は、hoges.map(item => {return <hoge>…</hoge>})とするか
