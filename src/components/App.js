@@ -25,7 +25,8 @@ const App = () => {
   //           (試しにcombineReducerのモジュールをimportから外し、reducers/event.jsの方をimportしたらstate.idが見つからないエラー
   //            が発生したため)
   const initialState = {
-    events: []
+    events: [],
+    operationLogs: []
   }
   const [state, dispatch] = useReducer(reducer, initialState);
 

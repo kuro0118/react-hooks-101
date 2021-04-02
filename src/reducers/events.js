@@ -60,6 +60,8 @@ const events = (state = [], action) => {
             //       arr1が[...state]の部分で、
             //       arr2が{id:id, ...event} => {id:hoge, title:poo, body:pee}
             //       結果、state配列にオブジェクトがpushされる。
+            //       また配列[]で返す=前回のstateとは別オブジェクト、ということになるため、
+            //       状態の変化を検知してくれる。
             return [...state, { id, ...event }]
         case DELETE_EVENT:
             return state.filter(event => event.id !== action.id)
