@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import React, { useEffect, useReducer } from 'react'
 // chips-bootstrap: import "bootstrap"とすると、JQueryが必要なモノまでインポートしてしまうので、
 //                  今回の演習ではJQueryは入れていない為、エラーが起きる。
 import "bootstrap/dist/css/bootstrap.min.css"
@@ -9,6 +9,8 @@ import OperationLogs from '../components/OperationLogs';
 import AppContext from '../contexts/AppContext';
 // chips: ファイル指定しなくてもreducerをインポートできる。
 import reducer from '../reducers';
+
+const APP_KEY = 'appWithRedux';
 
 // chips-bootstrap: container-fluidを指定すると、画面いっぱいにスタイルが適用される
 //                  conteinerを指定すると、左右に余白を残しつつ適用される。
@@ -25,11 +27,18 @@ const App = () => {
   //        >> 多分だけど、combineReducerのエクスポートに、引数として{events}を使用しているので、eventsプロパティに設定される説が濃厚。
   //           (試しにcombineReducerのモジュールをimportから外し、reducers/event.jsの方をimportしたらstate.idが見つからないエラー
   //            が発生したため)
-  const initialState = {
+  //  chips: initialStateに設定している記述は初回しか呼ばれない？？
+  const appState = localStorage.getItem(APP_KEY);
+  const initialState = appState ? JSON.parse(appState) : {
     events: [],
     operationLogs: []
   }
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect (() => {
+    // chips:文字列にしないとlocalStorageに設定出来ない。(文字列しか有効でないため) 【おさらい】
+    localStorage.setItem(APP_KEY, JSON.stringify(state))
+  }, [state])
 
   // chips: e.target.valueにて、入力値を拾うことが出来る。
   // chips: mapループ内のJSXを返したい場合は、hoges.map(item => {return <hoge>…</hoge>})とするか
